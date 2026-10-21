@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>qhn.fr</title>
+<meta name="description" content="Les petits projets web de Steven : blogs, outils et curiosités.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : en-tête court à gauche, puis une grille de tuiles qui passe de 3 à 2 à 1 colonne. */
+:root{
+  --bg:#f3f4f1; --surface:#ffffff; --ink:#16201c; --muted:#5d6762; --line:#dfe2dc;
+  --accent:#2f6b4f;
+  --t-points:#e9e4f6; --t-kintsugi:#f6efdc; --t-avelu:#dcecf3; --t-col:#e3eedf; --t-recettes:#f5e3dc; --t-vma:#ececea; --t-epargne:#e4ece9;
+  --gold:#b48a2c;
+  --display:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111614; --surface:#18201d; --ink:#e8ece9; --muted:#9aa49f; --line:#2a332f; --accent:#7fc4a0;
+  --t-points:#25213a; --t-kintsugi:#2e2818; --t-avelu:#182a33; --t-col:#1d2b1c; --t-recettes:#33221c; --t-vma:#232624; --t-epargne:#1a2622;
+  --gold:#d9b25a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111614; --surface:#18201d; --ink:#e8ece9; --muted:#9aa49f; --line:#2a332f; --accent:#7fc4a0;
+  --t-points:#25213a; --t-kintsugi:#2e2818; --t-avelu:#182a33; --t-col:#1d2b1c; --t-recettes:#33221c; --t-vma:#232624; --t-epargne:#1a2622;
+  --gold:#d9b25a; color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding-block:clamp(40px,8vw,88px) 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:grid;gap:clamp(32px,6vw,56px)}
+header{display:grid;gap:12px;max-width:38rem}
+.domain{font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{margin:0;font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.02;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+header p{margin:0;color:var(--muted);font-size:1.1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px;list-style:none;margin:0;padding:0}
+.tile{position:relative;display:grid;grid-template-rows:auto 1fr auto;gap:18px;min-height:220px;padding:22px;
+  border-radius:18px;background:var(--tint);color:inherit;text-decoration:none;border:1px solid transparent;
+  transition:transform .2s ease,border-color .2s ease}
+.tile:hover{transform:translateY(-3px);border-color:var(--line)}
+.tile:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.kind{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mark{width:56px;height:40px;flex:none;color:var(--ink)}
+.tile h2{margin:0 0 6px;font-size:1.5rem;line-height:1.1;font-weight:600;letter-spacing:-.01em}
+.tile p{margin:0;color:var(--muted);max-width:32ch}
+.url{font-family:var(--mono);font-size:.8rem;color:var(--ink);display:flex;justify-content:space-between;align-items:center;
+  padding-top:14px;border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent);overflow-wrap:anywhere}
+.url span:last-child{transition:transform .2s ease}
+.tile:hover .url span:last-child{transform:translateX(4px)}
+.soon{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:99px;
+  border:1px solid var(--muted);color:var(--muted)}
+.tile.is-soon{pointer-events:none}
+.tile.is-soon:hover{transform:none}
+footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 20px;
+  padding-top:20px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){.tile,.url span{transition:none}.tile:hover{transform:none}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="domain">qhn.fr</span>
+    <h1>Petits projets, idées simples.</h1>
+    <p>Des blogs, des outils et quelques curiosités, construits sur mon temps libre par Steven.</p>
+  </header>
+
+  <ul class="grid">
+    <li><a class="tile" style="--tint:var(--t-points)" href="https://pointdesuspension.qhn.fr">
+      <div class="top"><span class="kind">Blog</span>
+        <svg class="mark" viewBox="0 0 56 40" aria-hidden="true"><circle cx="12" cy="30" r="5" fill="currentColor"/><circle cx="28" cy="30" r="5" fill="currentColor"/><circle cx="44" cy="30" r="5" fill="currentColor"/></svg></div>
+      <div><h2>Point de suspension</h2><p>Billets, réflexions et choses laissées en suspens.</p></div>
+      <div class="url"><span>pointdesuspension.qhn.fr</span><span>→</span></div></a></li>
+
+    <li><a class="tile" style="--tint:var(--t-kintsugi)" href="https://ginkgokintsugi.qhn.fr">
+      <div class="top"><span class="kind">Blog</span>
+        <svg class="mark" viewBox="0 0 56 40" aria-hidden="true"><path d="M8 36 A20 20 0 0 1 48 36 Z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20 36 L24 26 L30 22 L28 14 L33 7" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><h2>Ginkgo kintsugi</h2><p>Réparer avec de l’or : un blog sur ce qui se recolle.</p></div>
+      <div class="url"><span>ginkgokintsugi.qhn.fr</span><span>→</span></div></a></li>
+
+    <li><a class="tile" style="--tint:var(--t-avelu)" href="https://aveliou.qhn.fr">
+      <div class="top"><span class="kind">Projet</span>
+        <svg class="mark" viewBox="0 0 56 40" aria-hidden="true"><path d="M10 36 L28 6 L46 36" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M17 25 H39" stroke="currentColor" stroke-width="3"/></svg></div>
+      <div><h2>Aveliou</h2><p>Description à venir.</p></div>
+      <div class="url"><span>aveliou.qhn.fr</span><span>→</span></div></a></li>
+
+    <li><a class="tile" style="--tint:var(--t-col)" href="https://chasseurdecols.qhn.fr">
+      <div class="top"><span class="kind">Vélo</span>
+        <svg class="mark" viewBox="0 0 56 40" aria-hidden="true"><path d="M2 36 L14 24 L20 28 L32 8 L42 20 L48 16 L54 36 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 8 V2 H38 V5 H32" fill="currentColor"/></svg></div>
+      <div><h2>Chasseur de cols</h2><p>Les cols gravis, leur altitude et le chemin pour y monter.</p></div>
+      <div class="url"><span>chasseurdecols.qhn.fr</span><span>→</span></div></a></li>
+
+    <li><a class="tile is-soon" style="--tint:var(--t-recettes)" aria-disabled="true">
+      <div class="top"><span class="kind">Cuisine</span><span class="soon">Bientôt</span></div>
+      <div><h2>Recettes</h2><p>Quelques milliers de recettes végétariennes, avec recherche.</p></div>
+      <div class="url"><span>recettes.qhn.fr</span><span>·</span></div></a></li>
+
+    <li><a class="tile is-soon" style="--tint:var(--t-vma)" aria-disabled="true">
+      <div class="top"><span class="kind">Course à pied</span><span class="soon">Bientôt</span></div>
+      <div><h2>VMA</h2><p>Calculer sa VMA et ses temps de passage au 100, 200, 400 ou 800 m.</p></div>
+      <div class="url"><span>vma.qhn.fr</span><span>·</span></div></a></li>
+
+    <li><a class="tile is-soon" style="--tint:var(--t-epargne)" aria-disabled="true">
+      <div class="top"><span class="kind">Finances</span><span class="soon">Bientôt</span></div>
+      <div><h2>Épargne simplifiée</h2><p>Description à venir.</p></div>
+      <div class="url"><span>epargne.qhn.fr</span><span>·</span></div></a></li>
+  </ul>
+
+  <footer><span>© 2026 Steven · qhn.fr</span></footer>
+</main>
+</body>
+</html>
