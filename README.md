@@ -12,3 +12,9 @@ construite depuis ce dépôt public, branche `main`. Un push ne redéploie pas
 tout seul : relancer le déploiement depuis Coolify (ou son API).
 
 Dépôt public : il ne contient et ne contiendra aucun secret.
+
+## Formulaire « Une idée de petit projet ? »
+Les suggestions partent vers Web3Forms, qui les renvoie par mail. La clé
+d'accès (`access_key` dans `site/index.html`) est publique par conception :
+elle ne permet que d'envoyer vers l'adresse de Steven. Tant qu'elle vaut
+`CLE_WEB3FORMS`, le formulaire affiche qu'il n'est pas encore branché.
