@@ -31,20 +31,38 @@ _envois = {}
 _verrou = threading.Lock()
 
 
+def env(*noms, defaut=""):
+    """Première variable définie parmi `noms`.
+
+    Les variables d'équipe Coolify ({{team.*}}) ne sont pas toutes nommées
+    pareil d'un service à l'autre (SMTP_USER ou SMTP_USERNAME...) : on accepte
+    les deux formes pour que l'application puisse reprendre les noms d'équipe
+    tels quels.
+    """
+    for nom in noms:
+        valeur = os.environ.get(nom, "").strip()
+        if valeur:
+            return valeur
+    return defaut
+
+
 def config():
     """Rend la configuration SMTP, ou None si une variable obligatoire manque."""
-    utilisateur = os.environ.get("SMTP_USER", "").strip()
-    mot_de_passe = os.environ.get("SMTP_PASS", "")
-    destinataire = os.environ.get("MAIL_TO", "").strip()
+    utilisateur = env("SMTP_USER", "SMTP_USERNAME")
+    mot_de_passe = env("SMTP_PASS", "SMTP_PASSWORD")
+    destinataire = env("MAIL_TO", "SMTP_TO")
     if not (utilisateur and mot_de_passe and destinataire):
         return None
+    port = int(env("SMTP_PORT", defaut="587"))
+    securite = env("SMTP_SECURITY", defaut="ssl" if port == 465 else "starttls").lower()
     return {
-        "hote": os.environ.get("SMTP_HOST", "mail.infomaniak.com").strip(),
-        "port": int(os.environ.get("SMTP_PORT", "587")),
+        "hote": env("SMTP_HOST", defaut="mail.infomaniak.com"),
+        "port": port,
+        "ssl": securite in ("ssl", "tls", "smtps"),
         "utilisateur": utilisateur,
         "mot_de_passe": mot_de_passe,
         # Infomaniak refuse un expéditeur différent du compte authentifié.
-        "expediteur": os.environ.get("MAIL_FROM", "").strip() or utilisateur,
+        "expediteur": env("MAIL_FROM", "SMTP_FROM") or utilisateur,
         "destinataire": destinataire,
     }
 
@@ -88,7 +106,7 @@ def envoyer(cfg, idee, prenom, email):
         f"E-mail : {email or '(non renseigné)'}\n\n{idee}\n"
     )
     contexte = ssl.create_default_context()
-    if cfg["port"] == 465:
+    if cfg["ssl"]:
         with smtplib.SMTP_SSL(cfg["hote"], cfg["port"], context=contexte, timeout=20) as smtp:
             smtp.login(cfg["utilisateur"], cfg["mot_de_passe"])
             smtp.send_message(msg)
@@ -171,6 +189,6 @@ class Gestionnaire(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    etat = "configuré" if config() else "NON configuré (SMTP_USER, SMTP_PASS, MAIL_TO)"
+    etat = "configuré" if config() else "NON configuré (SMTP_USER, SMTP_PASS, MAIL_TO ou leurs variantes)"
     sys.stderr.write(f"suggestion: écoute {ECOUTE[0]}:{ECOUTE[1]}, SMTP {etat}\n")
     ThreadingHTTPServer(ECOUTE, Gestionnaire).serve_forever()

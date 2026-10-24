@@ -81,6 +81,13 @@ class TestSuggestion(unittest.TestCase):
         self.assertIn("lea@exemple.fr", msg["Reply-To"])
         self.assertIn("Un calculateur d'allure", msg.get_content())
 
+    @mock.patch.dict(os.environ, {"SMTP_HOST": "smtp.exemple.fr", "SMTP_PORT": "465", "SMTP_USERNAME": "a@qhn.fr",
+                                  "SMTP_PASSWORD": "x", "SMTP_TO": "b@qhn.fr", "SMTP_FROM": "c@qhn.fr"}, clear=True)
+    def test_noms_des_variables_d_equipe(self):
+        cfg = suggestion.config()
+        self.assertEqual((cfg["hote"], cfg["port"], cfg["ssl"]), ("smtp.exemple.fr", 465, True))
+        self.assertEqual((cfg["utilisateur"], cfg["destinataire"], cfg["expediteur"]), ("a@qhn.fr", "b@qhn.fr", "c@qhn.fr"))
+
     @mock.patch.dict(os.environ, {}, clear=True)
     def test_non_configure(self):
         code, rep = self.poster({"idee": "x"})
