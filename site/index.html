@@ -138,10 +138,7 @@ footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;
       <h2 id="idea-title">Une idée de petit projet ?</h2>
       <p>Un outil qui te manque, un calcul que tu refais toujours à la main, une curiosité à mettre en ligne. Décris-la en quelques lignes, je lis tout.</p>
     </div>
-    <form id="idea-form" action="https://api.web3forms.com/submit" method="POST">
-      <input type="hidden" name="access_key" value="CLE_WEB3FORMS">
-      <input type="hidden" name="subject" value="Nouvelle idée de projet sur qhn.fr">
-      <input type="hidden" name="from_name" value="qhn.fr">
+    <form id="idea-form" action="/api/suggestion" method="POST">
       <div class="field">
         <label for="idea-text">Ton idée</label>
         <textarea id="idea-text" name="idee" required maxlength="2000" placeholder="Par exemple : un convertisseur d'allure pour le vélo, avec les cols de mon coin."></textarea>
@@ -172,16 +169,19 @@ footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;
   if(!form||!window.fetch) return;
   form.addEventListener('submit',function(e){
     e.preventDefault();
-    if(form.access_key.value==='CLE_WEB3FORMS'){status.className='status';status.textContent="Le formulaire n'est pas encore branché.";return;}
     var btn=form.querySelector('.send'); btn.disabled=true;
     status.className='status'; status.textContent='Envoi…';
-    fetch(form.action,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)})
-      .then(function(r){return r.json().then(function(d){return {ok:r.ok&&d.success};});})
-      .then(function(res){
-        if(res.ok){form.reset();status.className='status ok';status.textContent='Merci, ton idée est bien arrivée.';}
-        else{status.textContent="L'envoi a échoué. Réessaie dans un moment.";}
+    var data={}; new FormData(form).forEach(function(v,k){data[k]=v;});
+    fetch(form.action,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
+      .then(function(r){
+        if(r.status===429) return {ok:false,message:'Tu as déjà envoyé plusieurs idées. Réessaie dans une heure.'};
+        return r.json().catch(function(){return {ok:false,message:"L'envoi a échoué. Réessaie dans un moment."};});
       })
-      .catch(function(){status.textContent="Pas de connexion au serveur d'envoi. Vérifie ta connexion et réessaie.";})
+      .then(function(res){
+        if(res.ok){form.reset();status.className='status ok';}
+        status.textContent=res.message;
+      })
+      .catch(function(){status.textContent="Pas de connexion au serveur. Vérifie ta connexion et réessaie.";})
       .then(function(){btn.disabled=false;});
   });
 })();
