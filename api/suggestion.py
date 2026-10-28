@@ -1,7 +1,7 @@
 """Reçoit le formulaire « Une idée de petit projet ? » et l'envoie par mail.
 
-Le site est statique ; ce petit service tourne à côté de nginx, dans le même
-conteneur, sur 127.0.0.1:8081. nginx lui transmet POST /api/suggestion.
+Le site est statique ; ce module fait partie du service lancé par serveur.py
+à côté de nginx, sur 127.0.0.1:8081. nginx lui transmet POST /api/suggestion.
 Bibliothèque standard uniquement : aucune dépendance à suivre.
 
 Les identifiants SMTP viennent de l'environnement (variables Coolify), jamais
@@ -19,10 +19,9 @@ import threading
 import time
 from email.message import EmailMessage
 from email.utils import formataddr, make_msgid
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from http.server import BaseHTTPRequestHandler
 from urllib.parse import parse_qs
 
-ECOUTE = ("127.0.0.1", int(os.environ.get("SUGGESTION_PORT", "8081")))
 TAILLE_MAX = 16 * 1024
 LIMITE_PAR_HEURE = 5
 EMAIL_RE = re.compile(r"^[^@\s]{1,64}@[^@\s]{1,190}\.[^@\s]{2,}$")
@@ -121,7 +120,7 @@ class Gestionnaire(BaseHTTPRequestHandler):
     server_version = "suggestion"
 
     def log_message(self, fmt, *args):
-        sys.stderr.write("suggestion: " + (fmt % args) + "\n")
+        sys.stderr.write("api: " + (fmt % args) + "\n")
 
     def repondre(self, code, message, ok=False):
         if self.veut_json:
@@ -188,7 +187,4 @@ class Gestionnaire(BaseHTTPRequestHandler):
         return self.repondre(200, "Merci, ton idée est bien arrivée.", ok=True)
 
 
-if __name__ == "__main__":
-    etat = "configuré" if config() else "NON configuré (SMTP_USER, SMTP_PASS, MAIL_TO ou leurs variantes)"
-    sys.stderr.write(f"suggestion: écoute {ECOUTE[0]}:{ECOUTE[1]}, SMTP {etat}\n")
-    ThreadingHTTPServer(ECOUTE, Gestionnaire).serve_forever()
+# Point d'entrée : serveur.py, qui ajoute la zone privée à ce gestionnaire.
