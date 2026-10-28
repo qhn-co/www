@@ -56,6 +56,28 @@ header p{margin:0;color:var(--muted);font-size:1.1rem}
   border:1px solid var(--muted);color:var(--muted)}
 .tile.is-soon{pointer-events:none}
 .tile.is-soon:hover{transform:none}
+.idea{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(24px,5vw,56px);align-items:start;
+  padding-block:clamp(24px,4vw,40px);padding-inline:clamp(20px,4vw,40px);border-radius:18px;background:var(--surface);border:1px solid var(--line)}
+.idea h2{margin:0 0 10px;font-size:clamp(1.6rem,3.5vw,2.2rem);line-height:1.05;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.idea-intro p{margin:0;color:var(--muted);max-width:34ch}
+.idea form{display:grid;gap:16px;min-width:0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:grid;gap:6px;min-width:0}
+.field label{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.field label small{text-transform:none;letter-spacing:0;font-size:.72rem}
+.field input,.field textarea{font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);
+  border-radius:10px;padding:10px 12px;width:100%;min-width:0}
+.field textarea{min-height:120px;resize:vertical}
+.field input:focus-visible,.field textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+.send{font:inherit;font-weight:600;font-size:1rem;color:var(--bg);background:var(--ink);border:0;border-radius:99px;padding:11px 22px;cursor:pointer}
+.send:hover{background:var(--accent)}
+.send:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.send[disabled]{opacity:.6;cursor:progress}
+.status{margin:0;font-size:.95rem;color:var(--muted)}
+.status.ok{color:var(--accent)}
+@media (max-width:720px){.idea{grid-template-columns:minmax(0,1fr)}.row{grid-template-columns:minmax(0,1fr)}}
 footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 20px;
   padding-top:20px;border-top:1px solid var(--line)}
 @media (prefers-reduced-motion:reduce){.tile,.url span{transition:none}.tile:hover{transform:none}}
@@ -99,10 +121,11 @@ footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;
       <div><h2>Recettes</h2><p>Quelques milliers de recettes végétariennes, avec recherche.</p></div>
       <div class="url"><span>recettes.qhn.fr</span><span>·</span></div></a></li>
 
-    <li><a class="tile is-soon" style="--tint:var(--t-vma)" aria-disabled="true">
-      <div class="top"><span class="kind">Course à pied</span><span class="soon">Bientôt</span></div>
+    <li><a class="tile" style="--tint:var(--t-vma)" href="https://vma.qhn.fr">
+      <div class="top"><span class="kind">Course à pied</span>
+        <svg class="mark" viewBox="0 0 56 40" aria-hidden="true"><rect x="4" y="8" width="48" height="26" rx="13" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="11" y="15" width="34" height="12" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
       <div><h2>VMA</h2><p>Calculer sa VMA et ses temps de passage au 100, 200, 400 ou 800 m.</p></div>
-      <div class="url"><span>vma.qhn.fr</span><span>·</span></div></a></li>
+      <div class="url"><span>vma.qhn.fr</span><span>→</span></div></a></li>
 
     <li><a class="tile is-soon" style="--tint:var(--t-epargne)" aria-disabled="true">
       <div class="top"><span class="kind">Finances</span><span class="soon">Bientôt</span></div>
@@ -110,7 +133,58 @@ footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;
       <div class="url"><span>epargne.qhn.fr</span><span>·</span></div></a></li>
   </ul>
 
+  <section class="idea" id="suggerer" aria-labelledby="idea-title">
+    <div class="idea-intro">
+      <h2 id="idea-title">Une idée de petit projet ?</h2>
+      <p>Un outil qui te manque, un calcul que tu refais toujours à la main, une curiosité à mettre en ligne. Décris-la en quelques lignes, je lis tout.</p>
+    </div>
+    <form id="idea-form" action="/api/suggestion" method="POST">
+      <div class="field">
+        <label for="idea-text">Ton idée</label>
+        <textarea id="idea-text" name="idee" required maxlength="2000" placeholder="Par exemple : un convertisseur d'allure pour le vélo, avec les cols de mon coin."></textarea>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="idea-name">Prénom <small>(facultatif)</small></label>
+          <input id="idea-name" name="name" autocomplete="given-name" maxlength="80">
+        </div>
+        <div class="field">
+          <label for="idea-email">E-mail <small>(pour te répondre)</small></label>
+          <input id="idea-email" name="email" type="email" autocomplete="email" maxlength="120">
+        </div>
+      </div>
+      <div class="hp" aria-hidden="true"><label for="idea-check">Ne pas remplir</label><input id="idea-check" type="checkbox" name="botcheck" tabindex="-1"></div>
+      <div class="actions">
+        <button class="send" type="submit">Envoyer l'idée</button>
+        <p class="status" id="idea-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </section>
+
   <footer><span>© 2026 Steven · qhn.fr</span></footer>
 </main>
+<script>
+(function(){
+  var form=document.getElementById('idea-form'), status=document.getElementById('idea-status');
+  if(!form||!window.fetch) return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=form.querySelector('.send'); btn.disabled=true;
+    status.className='status'; status.textContent='Envoi…';
+    var data={}; new FormData(form).forEach(function(v,k){data[k]=v;});
+    fetch(form.action,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
+      .then(function(r){
+        if(r.status===429) return {ok:false,message:'Tu as déjà envoyé plusieurs idées. Réessaie dans une heure.'};
+        return r.json().catch(function(){return {ok:false,message:"L'envoi a échoué. Réessaie dans un moment."};});
+      })
+      .then(function(res){
+        if(res.ok){form.reset();status.className='status ok';}
+        status.textContent=res.message;
+      })
+      .catch(function(){status.textContent="Pas de connexion au serveur. Vérifie ta connexion et réessaie.";})
+      .then(function(){btn.disabled=false;});
+  });
+})();
+</script>
 </body>
 </html>
