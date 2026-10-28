@@ -1,0 +1,12 @@
+[
+  {"id": "kont", "nom": "Finances", "genre": "kont", "url": "https://kont.qhn.fr", "sonde": "/api/health", "contient": "\"status\":\"ok\"", "teinte": "kont"},
+  {"id": "movieplot", "nom": "Movieplot", "genre": "films et séries", "url": "https://movieplot.qhn.fr", "sonde": "/", "contient": "<title>Movie Plot", "teinte": "movie"},
+  {"id": "ideas", "nom": "Idées", "genre": "Miniflux", "url": "https://ideas.qhn.fr", "sonde": "/healthcheck", "contient": "OK", "teinte": "ideas"},
+  {"id": "vma", "nom": "VMA", "genre": "course à pied", "url": "https://vma.qhn.fr", "sonde": "/", "contient": "<title>Calculateur VMA", "teinte": "vma"},
+  {"id": "manage", "nom": "Déploiements", "genre": "manage", "url": "https://manage.ops.qhn.fr", "sonde": "/sante", "contient": "ok", "teinte": "ops"},
+  {"id": "beszel", "nom": "Serveurs", "genre": "Beszel", "url": "https://beszel.ops.qhn.fr", "sonde": "/api/health", "contient": "", "teinte": "ops"},
+  {"id": "windmill", "nom": "Windmill", "genre": "automatisations", "url": "https://windmill.qhn.fr", "sonde": "/api/version", "contient": "CE v", "teinte": "grey"},
+  {"id": "glitchtip", "nom": "Erreurs", "genre": "GlitchTip", "url": "https://glitchtip.qhn.fr", "sonde": "/_health/", "contient": "ok", "teinte": "grey"},
+  {"id": "vault", "nom": "Coffre", "genre": "Vaultwarden", "url": "https://vault.qhn.fr", "sonde": "/alive", "contient": "", "teinte": "grey"},
+  {"id": "recettes", "nom": "Recettes", "genre": "cuisine", "url": "https://recettes.qhn.fr", "bientot": "prévu mi-novembre", "teinte": "grey"}
+]

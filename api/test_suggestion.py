@@ -13,6 +13,7 @@ from typing import ClassVar
 from unittest import mock
 
 sys.path.insert(0, os.path.dirname(__file__))
+import serveur
 import suggestion
 
 ENV = {"SMTP_USER": "envoi@qhn.fr", "SMTP_PASS": "x", "MAIL_TO": "steven@exemple.fr"}
@@ -44,7 +45,7 @@ class FauxSMTP:
 class TestSuggestion(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.serveur = ThreadingHTTPServer(("127.0.0.1", 0), suggestion.Gestionnaire)
+        cls.serveur = ThreadingHTTPServer(("127.0.0.1", 0), serveur.Gestionnaire)
         cls.url = f"http://127.0.0.1:{cls.serveur.server_address[1]}"
         threading.Thread(target=cls.serveur.serve_forever, daemon=True).start()
 

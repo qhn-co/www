@@ -14,7 +14,8 @@
   --bg:#f3f4f1; --surface:#ffffff; --ink:#16201c; --muted:#5d6762; --line:#dfe2dc;
   --accent:#2f6b4f;
   --t-points:#e9e4f6; --t-kintsugi:#f6efdc; --t-avelu:#dcecf3; --t-col:#e3eedf; --t-recettes:#f5e3dc; --t-vma:#ececea; --t-epargne:#e4ece9;
-  --gold:#b48a2c;
+  --gold:#b48a2c; --ok:#2f8a57; --warn:#b7791f; --ko:#c2412d;
+  --t-kont:#e4ece9; --t-movie:#e9e4f6; --t-ideas:#f6efdc; --t-ops:#dcecf3; --t-grey:#ececea;
   --display:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   color-scheme:light;
@@ -22,12 +23,15 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#111614; --surface:#18201d; --ink:#e8ece9; --muted:#9aa49f; --line:#2a332f; --accent:#7fc4a0;
   --t-points:#25213a; --t-kintsugi:#2e2818; --t-avelu:#182a33; --t-col:#1d2b1c; --t-recettes:#33221c; --t-vma:#232624; --t-epargne:#1a2622;
-  --gold:#d9b25a; color-scheme:dark}}
+  --gold:#d9b25a; --ok:#5cc27a; --warn:#e0a84a; --ko:#ff7b72;
+  --t-kont:#1a2622; --t-movie:#25213a; --t-ideas:#2e2818; --t-ops:#182a33; --t-grey:#232624; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111614; --surface:#18201d; --ink:#e8ece9; --muted:#9aa49f; --line:#2a332f; --accent:#7fc4a0;
   --t-points:#25213a; --t-kintsugi:#2e2818; --t-avelu:#182a33; --t-col:#1d2b1c; --t-recettes:#33221c; --t-vma:#232624; --t-epargne:#1a2622;
-  --gold:#d9b25a; color-scheme:dark}
+  --gold:#d9b25a; --ok:#5cc27a; --warn:#e0a84a; --ko:#ff7b72;
+  --t-kont:#1a2622; --t-movie:#25213a; --t-ideas:#2e2818; --t-ops:#182a33; --t-grey:#232624; color-scheme:dark}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.5}
 .wrap{max-width:1080px;margin:0 auto;padding-block:clamp(40px,8vw,88px) 48px;
@@ -78,6 +82,32 @@ header p{margin:0;color:var(--muted);font-size:1.1rem}
 .status{margin:0;font-size:.95rem;color:var(--muted)}
 .status.ok{color:var(--accent)}
 @media (max-width:720px){.idea{grid-template-columns:minmax(0,1fr)}.row{grid-template-columns:minmax(0,1fr)}}
+.prive{display:grid;gap:16px}
+.prive-tete{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px}
+.prive-tete h2{margin:0;font-size:clamp(1.6rem,3.5vw,2.2rem);line-height:1.05;font-weight:800;letter-spacing:-.02em}
+.prive-tete p{margin:0;font-family:var(--mono);font-size:.76rem;color:var(--muted);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.lien{font:inherit;color:var(--ink);background:none;border:1px solid var(--line);border-radius:99px;padding:4px 12px;cursor:pointer;white-space:nowrap}
+.lien:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.outil{display:grid;grid-template-rows:auto auto 1fr auto;gap:12px;padding:20px;border-radius:18px;background:var(--tint);min-width:0;height:100%}
+.grid>li{display:grid;min-width:0}
+.outil .etat{font-family:var(--mono);font-size:.7rem;display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
+.dot.warn{background:var(--warn)}.dot.ko{background:var(--ko)}.dot.off{background:var(--muted)}
+.outil h3{margin:0;font-size:1.35rem;line-height:1.1;font-weight:600}
+.outil h3 a{color:inherit;text-decoration:none}
+.outil h3 a:hover{text-decoration:underline;text-underline-offset:3px}
+.outil h3 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.kpi{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.kpi b{font-size:2rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi span,.detail{color:var(--muted);font-size:.9rem}
+.detail{font-family:var(--mono);font-size:.78rem}
+.chart{width:100%;height:96px;display:block}
+.chart text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.pied{font-family:var(--mono);font-size:.72rem;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;
+  padding-top:10px;border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent)}
+.connexion{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.connexion input{font:inherit;font-size:.9rem;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:5px 12px;min-width:0;width:16rem;max-width:100%}
+.connexion input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 20px;
   padding-top:20px;border-top:1px solid var(--line)}
 @media (prefers-reduced-motion:reduce){.tile,.url span{transition:none}.tile:hover{transform:none}}
@@ -90,6 +120,8 @@ footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;
     <h1>Petits projets, idées simples.</h1>
     <p>Des blogs, des outils et quelques curiosités, construits sur mon temps libre par Steven.</p>
   </header>
+
+  <section class="prive" id="prive" aria-labelledby="prive-titre" hidden></section>
 
   <ul class="grid">
     <li><a class="tile" style="--tint:var(--t-points)" href="https://pointdesuspension.qhn.fr">
@@ -161,7 +193,15 @@ footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;
     </form>
   </section>
 
-  <footer><span>© 2026 Steven · qhn.fr</span></footer>
+  <footer><span>© 2026 Steven · qhn.fr</span>
+    <button class="lien" type="button" id="ouvrir-connexion">Connexion</button>
+    <form class="connexion" id="connexion" hidden>
+      <label class="hp" for="phrase">Phrase de passe</label>
+      <input id="phrase" name="phrase" type="password" autocomplete="current-password" placeholder="Phrase de passe" required>
+      <button class="lien" type="submit">Entrer</button>
+      <span id="connexion-statut" role="status" aria-live="polite"></span>
+    </form>
+  </footer>
 </main>
 <script>
 (function(){
@@ -184,6 +224,64 @@ footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;
       .catch(function(){status.textContent="Pas de connexion au serveur. Vérifie ta connexion et réessaie.";})
       .then(function(){btn.disabled=false;});
   });
+})();
+</script>
+<script>
+(function(){
+  // Zone privée : rien ici n'est privé. Le serveur ne rend les tuiles qu'avec une session.
+  var zone=document.getElementById('prive'), ouvrir=document.getElementById('ouvrir-connexion'),
+      form=document.getElementById('connexion'), statut=document.getElementById('connexion-statut');
+  if(!zone||!window.fetch) return;
+  var etats={ok:'en ligne',warn:'à regarder',ko:'en panne',off:'à venir'};
+  function txt(tag,cls,t){var e=document.createElement(tag);if(cls)e.className=cls;e.textContent=t;return e;}
+  function afficher(d){
+    zone.textContent='';
+    var tete=document.createElement('div');tete.className='prive-tete';
+    var h=txt('h2','','Mes outils');h.id='prive-titre';tete.appendChild(h);
+    var p=document.createElement('p');
+    var fin=new Date(d.fin*1000);
+    p.appendChild(txt('span','','Connecté jusqu\u2019à '+fin.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})));
+    var b=txt('button','lien','Se déconnecter');b.type='button';
+    b.addEventListener('click',function(){
+      fetch('/api/deconnexion',{method:'POST',headers:{'X-CSRF':d.csrf}}).then(function(){location.reload();});
+    });
+    p.appendChild(b);tete.appendChild(p);zone.appendChild(tete);
+    var ul=document.createElement('ul');ul.className='grid';
+    d.outils.forEach(function(o){
+      var li=document.createElement('li'),a=document.createElement('article');
+      a.className='outil';a.style.setProperty('--tint','var(--t-'+o.teinte+')');
+      var top=document.createElement('div');top.className='top';
+      top.appendChild(txt('span','kind',o.genre));
+      var et=document.createElement('span');et.className='etat';
+      et.appendChild(txt('span','dot '+o.etat,''));et.appendChild(document.createTextNode(etats[o.etat]||''));
+      top.appendChild(et);a.appendChild(top);
+      var corps=document.createElement('div'),h3=document.createElement('h3');
+      if(o.etat!=='off'||o.kpi!=='—'){var l=txt('a','',o.nom+' \u2197');l.href=o.url;h3.appendChild(l);}else h3.textContent=o.nom;
+      corps.appendChild(h3);
+      var k=document.createElement('div');k.className='kpi';k.appendChild(txt('b','',o.kpi));k.appendChild(txt('span','',o.unite));
+      corps.appendChild(k);if(o.detail)corps.appendChild(txt('div','detail',o.detail));a.appendChild(corps);
+      var c=document.createElement('div');c.innerHTML=o.svg;a.appendChild(c);
+      var pied=document.createElement('div');pied.className='pied';
+      pied.appendChild(txt('span','',o.pied[0]));pied.appendChild(txt('span','',o.pied[1]||''));a.appendChild(pied);
+      li.appendChild(a);ul.appendChild(li);
+    });
+    zone.appendChild(ul);zone.hidden=false;
+    ouvrir.hidden=true;form.hidden=true;
+  }
+  function charger(){
+    return fetch('/api/prive',{headers:{'Accept':'application/json'},credentials:'same-origin'})
+      .then(function(r){return r.ok?r.json().then(afficher):null;}).catch(function(){});
+  }
+  ouvrir.addEventListener('click',function(){ouvrir.hidden=true;form.hidden=false;form.phrase.focus();});
+  form.addEventListener('submit',function(e){
+    e.preventDefault();statut.textContent='';
+    fetch('/api/connexion',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({phrase:form.phrase.value})})
+      .then(function(r){return r.json().catch(function(){return {message:'Trop d\u2019essais. Réessaie dans un moment.'};})
+        .then(function(d){if(r.ok){form.reset();charger().then(function(){zone.scrollIntoView({block:'start'});});}else statut.textContent=d.message;});})
+      .catch(function(){statut.textContent='Pas de connexion au serveur.';});
+  });
+  charger();
 })();
 </script>
 </body>
