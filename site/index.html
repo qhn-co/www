@@ -3,166 +3,169 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>qhn.fr</title>
-<meta name="description" content="Les petits projets web de Steven : blogs, outils et curiosités.">
+<title>qhn.fr · Stal, l’atelier de Steven</title>
+<meta name="description" content="Stal, l’atelier de Steven : des outils qui servent et des blogs, construits sur son temps libre.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout : en-tête court à gauche, puis une grille de tuiles qui passe de 3 à 2 à 1 colonne. */
+/* Stal : une colonne lisible, l'icône propre à chaque site, fond uni. La zone privée et le formulaire gardent leurs classes. */
 :root{
-  --bg:#f3f4f1; --surface:#ffffff; --ink:#16201c; --muted:#5d6762; --line:#dfe2dc;
-  --accent:#2f6b4f;
-  --t-points:#e9e4f6; --t-kintsugi:#f6efdc; --t-avelu:#dcecf3; --t-col:#e3eedf; --t-recettes:#f5e3dc; --t-vma:#ececea; --t-epargne:#e4ece9;
-  --gold:#b48a2c; --ok:#2f8a57; --warn:#b7791f; --ko:#c2412d;
-  --t-kont:#e4ece9; --t-movie:#e9e4f6; --t-ideas:#f6efdc; --t-ops:#dcecf3; --t-grey:#ececea;
+  --fond:#f7f6f2; --encre:#15305a; --texte:#2b3a52; --doux:#5d6b80; --trait:rgba(21,48,90,.08); --accent:#c8961e; --champ:#ffffff;
+  --ok:#2f8a57; --warn:#b7791f; --ko:#c2412d;
+  --t-kont:#e6ece9; --t-movie:#f3ead6; --t-ideas:#ece8f4; --t-ops:#e1e8f2; --t-vma:#f4e4dc; --t-grey:#ecebe6;
   --display:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#111614; --surface:#18201d; --ink:#e8ece9; --muted:#9aa49f; --line:#2a332f; --accent:#7fc4a0;
-  --t-points:#25213a; --t-kintsugi:#2e2818; --t-avelu:#182a33; --t-col:#1d2b1c; --t-recettes:#33221c; --t-vma:#232624; --t-epargne:#1a2622;
-  --gold:#d9b25a; --ok:#5cc27a; --warn:#e0a84a; --ko:#ff7b72;
-  --t-kont:#1a2622; --t-movie:#25213a; --t-ideas:#2e2818; --t-ops:#182a33; --t-grey:#232624; color-scheme:dark}}
+  --fond:#122848; --encre:#f3f7ff; --texte:#d6e2f5; --doux:#9fb2cf; --trait:rgba(216,230,255,.12); --accent:#f2c14e; --champ:#0f2240;
+  --ok:#5cc27a; --warn:#e0a84a; --ko:#ff7b72;
+  --t-kont:#173252; --t-movie:#2a2d3a; --t-ideas:#1d2c4c; --t-ops:#16304f; --t-vma:#2c2a3c; --t-grey:#1a2c47; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#111614; --surface:#18201d; --ink:#e8ece9; --muted:#9aa49f; --line:#2a332f; --accent:#7fc4a0;
-  --t-points:#25213a; --t-kintsugi:#2e2818; --t-avelu:#182a33; --t-col:#1d2b1c; --t-recettes:#33221c; --t-vma:#232624; --t-epargne:#1a2622;
-  --gold:#d9b25a; --ok:#5cc27a; --warn:#e0a84a; --ko:#ff7b72;
-  --t-kont:#1a2622; --t-movie:#25213a; --t-ideas:#2e2818; --t-ops:#182a33; --t-grey:#232624; color-scheme:dark}
+  --fond:#122848; --encre:#f3f7ff; --texte:#d6e2f5; --doux:#9fb2cf; --trait:rgba(216,230,255,.12); --accent:#f2c14e; --champ:#0f2240;
+  --ok:#5cc27a; --warn:#e0a84a; --ko:#ff7b72;
+  --t-kont:#173252; --t-movie:#2a2d3a; --t-ideas:#1d2c4c; --t-ops:#16304f; --t-vma:#2c2a3c; --t-grey:#1a2c47; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.5}
-.wrap{max-width:1080px;margin:0 auto;padding-block:clamp(40px,8vw,88px) 48px;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
-  display:grid;gap:clamp(32px,6vw,56px)}
-header{display:grid;gap:12px;max-width:38rem}
-.domain{font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-h1{margin:0;font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.02;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
-header p{margin:0;color:var(--muted);font-size:1.1rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px;list-style:none;margin:0;padding:0}
-.tile{position:relative;display:grid;grid-template-rows:auto 1fr auto;gap:18px;min-height:220px;padding:22px;
-  border-radius:18px;background:var(--tint);color:inherit;text-decoration:none;border:1px solid transparent;
-  transition:transform .2s ease,border-color .2s ease}
-.tile:hover{transform:translateY(-3px);border-color:var(--line)}
-.tile:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.kind{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.mark{width:56px;height:40px;flex:none;color:var(--ink)}
-.tile h2{margin:0 0 6px;font-size:1.5rem;line-height:1.1;font-weight:600;letter-spacing:-.01em}
-.tile p{margin:0;color:var(--muted);max-width:32ch}
-.url{font-family:var(--mono);font-size:.8rem;color:var(--ink);display:flex;justify-content:space-between;align-items:center;
-  padding-top:14px;border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent);overflow-wrap:anywhere}
-.url span:last-child{transition:transform .2s ease}
-.tile:hover .url span:last-child{transform:translateX(4px)}
-.soon{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:99px;
-  border:1px solid var(--muted);color:var(--muted)}
-.tile.is-soon{pointer-events:none}
-.tile.is-soon:hover{transform:none}
-.idea{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(24px,5vw,56px);align-items:start;
-  padding-block:clamp(24px,4vw,40px);padding-inline:clamp(20px,4vw,40px);border-radius:18px;background:var(--surface);border:1px solid var(--line)}
-.idea h2{margin:0 0 10px;font-size:clamp(1.6rem,3.5vw,2.2rem);line-height:1.05;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
-.idea-intro p{margin:0;color:var(--muted);max-width:34ch}
-.idea form{display:grid;gap:16px;min-width:0}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+html{-webkit-text-size-adjust:100%;background:var(--fond)}
+body{margin:0;color:var(--texte);font:17px/1.6 var(--display);background:var(--fond)}
+.page{max-width:760px;margin:0 auto;padding:72px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px));display:grid;gap:64px}
+header{display:grid;gap:0}
+h1{font-size:clamp(56px,11vw,96px);line-height:.9;margin:0 0 20px;color:var(--encre);font-weight:700;letter-spacing:-.02em}
+.desc{font-size:clamp(19px,2.6vw,22px);line-height:1.45;margin:0 0 14px;color:var(--encre);max-width:42ch}
+.url{font:13px/1.4 var(--mono);color:var(--doux);margin:0}
+.url b{color:var(--accent);font-weight:500}
+.projets{list-style:none;margin:0;padding:0}
+.projet{display:grid;grid-template-columns:40px 1fr;gap:20px;padding:28px 0;border-top:1px solid var(--trait)}
+.projet:last-child{border-bottom:1px solid var(--trait)}
+.ico{width:40px;height:40px;border-radius:10px;display:block;overflow:hidden}
+.ico svg,.ico img{width:40px;height:40px;display:block}
+.tete{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:6px}
+h2{margin:0;font-size:22px;line-height:1.2;color:var(--encre);font-weight:700}
+h2 a{color:inherit;text-decoration:none}
+h2 a:hover,h2 a:focus-visible{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.adr{font:13px/1.4 var(--mono);color:var(--doux)}
+.chapeau{margin:0 0 8px;font-size:18px;line-height:1.45;color:var(--encre);font-weight:600}
+.texte{margin:0;color:var(--doux);font-size:16px;line-height:1.6;max-width:62ch}
+/* Formulaire « Une idée de petit projet ? » */
+.idea{display:grid;gap:18px}
+.idea h2{font-size:26px;margin-bottom:10px}
+.idea-intro p{margin:0;color:var(--doux);max-width:58ch}
+.idea form{display:grid;gap:14px;min-width:0}
+.row{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .field{display:grid;gap:6px;min-width:0}
-.field label{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.field label small{text-transform:none;letter-spacing:0;font-size:.72rem}
-.field input,.field textarea{font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);
-  border-radius:10px;padding:10px 12px;width:100%;min-width:0}
+.field label{font:13px/1.4 var(--mono);color:var(--doux)}
+.field label small{font-size:inherit}
+.field input,.field textarea{font:16px/1.5 var(--display);color:var(--encre);background:var(--champ);border:1px solid var(--trait);border-radius:8px;padding:10px 12px;width:100%;min-width:0}
 .field textarea{min-height:120px;resize:vertical}
-.field input:focus-visible,.field textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.field input:focus,.field textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
-.send{font:inherit;font-weight:600;font-size:1rem;color:var(--bg);background:var(--ink);border:0;border-radius:99px;padding:11px 22px;cursor:pointer}
-.send:hover{background:var(--accent)}
-.send:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.send{font:600 16px/1 var(--display);color:var(--fond);background:var(--encre);border:0;border-radius:8px;padding:13px 20px;cursor:pointer}
 .send[disabled]{opacity:.6;cursor:progress}
-.status{margin:0;font-size:.95rem;color:var(--muted)}
-.status.ok{color:var(--accent)}
-@media (max-width:720px){.idea{grid-template-columns:minmax(0,1fr)}.row{grid-template-columns:minmax(0,1fr)}}
+.status{margin:0;font:13px/1.4 var(--mono);color:var(--doux)}
+.status.ok{color:var(--ok)}
+/* Zone privée « Mes outils », rendue par /api/prive après connexion */
 .prive{display:grid;gap:16px}
 .prive-tete{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px}
-.prive-tete h2{margin:0;font-size:clamp(1.6rem,3.5vw,2.2rem);line-height:1.05;font-weight:800;letter-spacing:-.02em}
-.prive-tete p{margin:0;font-family:var(--mono);font-size:.76rem;color:var(--muted);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.lien{font:inherit;color:var(--ink);background:none;border:1px solid var(--line);border-radius:99px;padding:4px 12px;cursor:pointer;white-space:nowrap}
-.lien:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.outil{display:grid;grid-template-rows:auto auto 1fr auto;gap:12px;padding:20px;border-radius:18px;background:var(--tint);min-width:0;height:100%}
+.prive-tete h2{font-size:26px}
+.prive-tete p{margin:0;font:13px/1.4 var(--mono);color:var(--doux);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.lien{font:500 13px/1.4 var(--mono);color:var(--encre);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px;list-style:none;margin:0;padding:0}
 .grid>li{display:grid;min-width:0}
-.outil .etat{font-family:var(--mono);font-size:.7rem;display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+.outil{display:grid;grid-template-rows:auto auto 1fr auto;gap:12px;padding:20px;border-radius:12px;background:var(--tint);min-width:0;height:100%}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.kind{font:12px/1.4 var(--mono);color:var(--doux)}
+.outil .etat{font:12px/1.4 var(--mono);display:inline-flex;align-items:center;gap:6px;color:var(--doux)}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
-.dot.warn{background:var(--warn)}.dot.ko{background:var(--ko)}.dot.off{background:var(--muted)}
-.outil h3{margin:0;font-size:1.35rem;line-height:1.1;font-weight:600}
+.dot.warn{background:var(--warn)}.dot.ko{background:var(--ko)}.dot.off{background:var(--doux)}
+.outil h3{margin:0;font-size:20px;line-height:1.2;font-weight:700;color:var(--encre)}
 .outil h3 a{color:inherit;text-decoration:none}
 .outil h3 a:hover{text-decoration:underline;text-underline-offset:3px}
-.outil h3 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 .kpi{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.kpi b{font-size:2rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.kpi span,.detail{color:var(--muted);font-size:.9rem}
+.kpi b{font-size:2rem;font-weight:700;color:var(--encre);font-variant-numeric:tabular-nums}
+.kpi span,.detail{color:var(--doux);font-size:.9rem}
 .detail{font-family:var(--mono);font-size:.78rem}
 .chart{width:100%;height:96px;display:block}
-.chart text{font-family:var(--mono);font-size:10px;fill:var(--muted)}
-.pied{font-family:var(--mono);font-size:.72rem;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;
-  padding-top:10px;border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent)}
-.connexion{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.connexion input{font:inherit;font-size:.9rem;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:5px 12px;min-width:0;width:16rem;max-width:100%}
-.connexion input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 20px;
-  padding-top:20px;border-top:1px solid var(--line)}
-@media (prefers-reduced-motion:reduce){.tile,.url span{transition:none}.tile:hover{transform:none}}
+.chart text{font-family:var(--mono);font-size:10px;fill:var(--doux)}
+.pied{font:12px/1.4 var(--mono);color:var(--doux);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding-top:10px;border-top:1px solid var(--trait)}
+/* Pied de page et connexion */
+footer{padding-top:20px;border-top:1px solid var(--trait);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;font:13px/1.4 var(--mono);color:var(--doux)}
+.connexion{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.connexion input{font:14px/1.4 var(--display);color:var(--encre);background:var(--champ);border:1px solid var(--trait);border-radius:8px;padding:6px 10px;width:16rem;max-width:100%;min-width:0}
+.connexion input:focus{outline:2px solid var(--accent);outline-offset:1px}
+@media (max-width:520px){.projet{grid-template-columns:1fr;gap:12px}.page{padding-top:48px}}
 </style>
 </head>
 <body>
-<main class="wrap">
+<main class="page">
   <header>
-    <span class="domain">qhn.fr</span>
-    <h1>Petits projets, idées simples.</h1>
-    <p>Des blogs, des outils et quelques curiosités, construits sur mon temps libre par Steven.</p>
+    <h1>Stal</h1>
+    <p class="desc">Je construis ce qui me manque : des outils qui servent, des blogs pour ce qui mérite d'être raconté. Sur mon temps libre.</p>
+    <p class="url">qhn.fr · <b>stal</b>, « atelier » en breton</p>
   </header>
 
   <section class="prive" id="prive" aria-labelledby="prive-titre" hidden></section>
 
-  <ul class="grid">
-    <li><a class="tile" style="--tint:var(--t-points)" href="https://pointdesuspension.qhn.fr">
-      <div class="top"><span class="kind">Blog</span>
-        <svg class="mark" viewBox="0 0 56 40" aria-hidden="true"><circle cx="12" cy="30" r="5" fill="currentColor"/><circle cx="28" cy="30" r="5" fill="currentColor"/><circle cx="44" cy="30" r="5" fill="currentColor"/></svg></div>
-      <div><h2>Point de suspension</h2><p>Billets, réflexions et choses laissées en suspens.</p></div>
-      <div class="url"><span>pointdesuspension.qhn.fr</span><span>→</span></div></a></li>
-
-    <li><a class="tile" style="--tint:var(--t-kintsugi)" href="https://ginkgokintsugi.qhn.fr">
-      <div class="top"><span class="kind">Blog</span>
-        <svg class="mark" viewBox="0 0 56 40" aria-hidden="true"><path d="M8 36 A20 20 0 0 1 48 36 Z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20 36 L24 26 L30 22 L28 14 L33 7" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div><h2>Ginkgo kintsugi</h2><p>Réparer avec de l’or : un blog sur ce qui se recolle.</p></div>
-      <div class="url"><span>ginkgokintsugi.qhn.fr</span><span>→</span></div></a></li>
-
-    <li><a class="tile" style="--tint:var(--t-avelu)" href="https://aveliou.qhn.fr">
-      <div class="top"><span class="kind">Projet</span>
-        <svg class="mark" viewBox="0 0 56 40" aria-hidden="true"><path d="M10 36 L28 6 L46 36" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M17 25 H39" stroke="currentColor" stroke-width="3"/></svg></div>
-      <div><h2>Aveliou</h2><p>Description à venir.</p></div>
-      <div class="url"><span>aveliou.qhn.fr</span><span>→</span></div></a></li>
-
-    <li><a class="tile" style="--tint:var(--t-col)" href="https://chasseurdecols.qhn.fr">
-      <div class="top"><span class="kind">Vélo</span>
-        <svg class="mark" viewBox="0 0 56 40" aria-hidden="true"><path d="M2 36 L14 24 L20 28 L32 8 L42 20 L48 16 L54 36 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M32 8 V2 H38 V5 H32" fill="currentColor"/></svg></div>
-      <div><h2>Chasseur de cols</h2><p>Les cols gravis, leur altitude et le chemin pour y monter.</p></div>
-      <div class="url"><span>chasseurdecols.qhn.fr</span><span>→</span></div></a></li>
-
-    <li><a class="tile is-soon" style="--tint:var(--t-recettes)" aria-disabled="true">
-      <div class="top"><span class="kind">Cuisine</span><span class="soon">Bientôt</span></div>
-      <div><h2>Recettes</h2><p>Quelques milliers de recettes végétariennes, avec recherche.</p></div>
-      <div class="url"><span>recettes.qhn.fr</span><span>·</span></div></a></li>
-
-    <li><a class="tile" style="--tint:var(--t-vma)" href="https://vma.qhn.fr">
-      <div class="top"><span class="kind">Course à pied</span>
-        <svg class="mark" viewBox="0 0 56 40" aria-hidden="true"><rect x="4" y="8" width="48" height="26" rx="13" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="11" y="15" width="34" height="12" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
-      <div><h2>VMA</h2><p>Calculer sa VMA et ses temps de passage au 100, 200, 400 ou 800 m.</p></div>
-      <div class="url"><span>vma.qhn.fr</span><span>→</span></div></a></li>
-
-    <li><a class="tile is-soon" style="--tint:var(--t-epargne)" aria-disabled="true">
-      <div class="top"><span class="kind">Finances</span><span class="soon">Bientôt</span></div>
-      <div><h2>Épargne simplifiée</h2><p>Description à venir.</p></div>
-      <div class="url"><span>epargne.qhn.fr</span><span>·</span></div></a></li>
+  <ul class="projets" aria-label="Projets">
+    <li class="projet">
+      <span class="ico" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#2a3a6f"/><g fill="none" stroke="#fff" stroke-linecap="round"><path d="M21 30v6a11 11 0 0 0 22 0v-6" stroke-width="5"/><path d="M14 18H30a4.5 4.5 0 1 0-4.5-4.5" stroke-width="4"/></g></svg></span>
+      <div>
+        <div class="tete"><h2><a href="https://aveliou.qhn.fr">Aveliou</a></h2><span class="adr">aveliou.qhn.fr</span></div>
+        <p class="chapeau">Un éditeur de traces GPS, sur une carte.</p>
+        <p class="texte">On y dépose ses traces, on les retouche directement sur la carte et on les range par étiquettes. Un compte garde l'ensemble, pour retrouver une sortie ou en préparer une nouvelle.</p>
+      </div>
+    </li>
+    <li class="projet">
+      <span class="ico" aria-hidden="true"><img src="data:image/jpeg;base64,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" alt=""></span>
+      <div>
+        <div class="tete"><h2><a href="https://chasseurdecols.qhn.fr">Chasseur de cols</a></h2><span class="adr">chasseurdecols.qhn.fr</span></div>
+        <p class="chapeau">Les cols franchis à vélo, retrouvés dans ses sorties.</p>
+        <p class="texte">Le site lit les sorties enregistrées sur Strava et repère les cols traversés. Chaque col garde son altitude et la route empruntée, et la liste grossit au fil des étés.</p>
+      </div>
+    </li>
+    <li class="projet">
+      <span class="ico" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#c2401a"/><rect x="10" y="20" width="44" height="24" rx="12" fill="none" stroke="#fff" stroke-width="4"/><rect x="17" y="27" width="30" height="10" rx="5" fill="none" stroke="#fff" stroke-width="2"/></svg></span>
+      <div>
+        <div class="tete"><h2><a href="https://vma.qhn.fr">VMA</a></h2><span class="adr">vma.qhn.fr</span></div>
+        <p class="chapeau">Les temps de passage qui vont avec sa VMA.</p>
+        <p class="texte">On saisit sa vitesse maximale aérobie et un pourcentage, et la piste d'athlétisme affiche les temps à tenir tour par tour. Un tableau couvre de 70 à 110 %, avec des prédictions de course et des séances types.</p>
+      </div>
+    </li>
+    <li class="projet">
+      <span class="ico" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#c8961e"/><g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M41 15.5a8 8 0 0 0-13 6.5v27" stroke-width="5"/><path d="M41 31H15M20.5 25.5 15 31l5.5 5.5" stroke-width="4"/></g></svg></span>
+      <div>
+        <div class="tete"><h2><a href="https://movieplot.qhn.fr">Filmoù</a></h2><span class="adr">movieplot.qhn.fr</span></div>
+        <p class="chapeau">Se rappeler un film en deux minutes.</p>
+        <p class="texte">Une fiche par film, ou par saison pour une série : de quoi ça parle, l'intrigue dans l'ordre et les scènes qui marquent. La fin reste cachée derrière un avertissement, pour qui hésite encore à le revoir.</p>
+      </div>
+    </li>
+    <li class="projet">
+      <span class="ico" aria-hidden="true"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7.5" fill="#2a3c6f"/><path d="M9 25V9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v16z" fill="#fff"/><rect x="11" y="9.5" width="7" height="5" rx="1" fill="#15803d"/><path d="M20 13h2a2 2 0 0 1 2 2v6a1.5 1.5 0 0 0 3 0v-9l-3-3" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="7" y="24" width="15" height="2" rx="1" fill="#fff"/></svg></span>
+      <div>
+        <div class="tete"><h2><a href="https://carburant.qhn.fr">Carburant</a></h2><span class="adr">carburant.qhn.fr</span></div>
+        <p class="chapeau">La station la moins chère, autour de soi ou sur la route.</p>
+        <p class="texte">Les prix officiels de toutes les stations de France, mis à jour toutes les demi-heures. On cherche autour d'une adresse ou le long d'un trajet, et le site compare la plus proche, la moins chère et celle qui vaut le détour, avec l'économie sur un plein.</p>
+      </div>
+    </li>
+    <li class="projet">
+      <span class="ico" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#3b3a36"/><g fill="#fff"><circle cx="20" cy="40" r="3.5"/><circle cx="32" cy="40" r="3.5"/><circle cx="44" cy="40" r="3.5"/></g></svg></span>
+      <div>
+        <div class="tete"><h2><a href="https://pointdesuspension.qhn.fr">Point de suspension</a></h2><span class="adr">pointdesuspension.qhn.fr</span></div>
+        <p class="chapeau">Un blog personnel, sans sujet imposé.</p>
+        <p class="texte">Des billets écrits quand l'envie vient : réflexions, lectures, idées qui ne tiennent pas dans un outil. Ce qui reste en suspens trouve sa place ici.</p>
+      </div>
+    </li>
+    <li class="projet">
+      <span class="ico" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1f4a3c"/><g fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M32 50V34"/><path d="M32 34C22 34 14 26 14 16c6 0 12 2 18 8 6-6 12-8 18-8 0 10-8 18-18 18z"/></g><path d="M32 24v10" stroke="#e2b54a" stroke-width="3" stroke-linecap="round"/></svg></span>
+      <div>
+        <div class="tete"><h2><a href="https://ginkgokintsugi.qhn.fr">Ginkgo kintsugi</a></h2><span class="adr">ginkgokintsugi.qhn.fr</span></div>
+        <p class="chapeau">Le kintsugi, réparer la céramique avec de l'or.</p>
+        <p class="texte">Un blog sur cet art japonais qui montre la cassure au lieu de la cacher : les pièces réparées, les gestes, les matériaux, et ce que l'on apprend en recollant.</p>
+      </div>
+    </li>
   </ul>
 
   <section class="idea" id="suggerer" aria-labelledby="idea-title">
@@ -193,7 +196,7 @@ footer{font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;
     </form>
   </section>
 
-  <footer><span>© 2026 Steven · qhn.fr</span>
+  <footer><span>Stal · qhn.fr · fait main en Bretagne</span>
     <button class="lien" type="button" id="ouvrir-connexion">Connexion</button>
     <form class="connexion" id="connexion" hidden>
       <label class="hp" for="phrase">Phrase de passe</label>

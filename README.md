@@ -1,7 +1,9 @@
 # www — page d'accueil de qhn.fr
 
-Une page statique qui liste les petits projets web du parc. Première itération,
-reprise de la maquette « qhn.fr » du 2026-10-15, avec les vrais domaines.
+Une page statique qui liste les petits projets web publics du parc, sous le nom
+« Stal » (« atelier » en breton) : une colonne, l'icône de chaque site (copiée de
+son dépôt), un titre, un chapeau et une description. Les projets personnels
+(recettes, finances) n'y figurent pas.
 
 - `site/` : le contenu servi, tel quel.
 - `nginx.conf` : `/sante` pour la sonde ; `/explorer/*` renvoie vers `aveliou.qhn.fr`.
